@@ -339,9 +339,39 @@ The fourth section of the dhcp.conf file contains the default configuration para
 
 ```   
 
+### 5. CTS DHCP VENDOR OPTIONS, ANALYZER PACKET TRACES   
 
+The loss of DHCP functionality is usually met with an emotional response from network users. Those who have worked in network support departments may have character building experiences of standing on the burning deck as a network sinks to an inoperative state, to a chorus of disaproval from its users. Time is money; never more true than when the dollars fall off the wire during a network outage. The resolution of DHCP issues in a timely manner is often accompanied by considerably management pressures. With the timely resolution of DHCP issues in mind, the following four packet traces are provided as a useful reference. Even in the non production environment of the laboratory, unexpected issues may arise and it is then when the ability to compare with successful DHCP lease packet traces is invaluable.   
+
+#### 5.1 DHCP DISCOVER
+
+
+![DISC][DHCP_DISCOVER]   
+**Figure 4.** DHCP Discover packet decode
+
+#### 5.2 DHCP OFFER   
+
+![OFFER][DHCP_OFFER]   
+**Figure 5.** DHCP Offer packet decode   
+
+#### 5.3 DHCP REQUEST   
+
+![REQUEST][DHCP_REQUEST]   
+**Figure 6.** DHCP Request packet decode   
+
+#### 5.4 DHCP ACK   
+
+![ACK][DHCP_ACK]
+**Figure 7.** DHCP ACK
+
+   
+   
 
 [DHCP_SERVER_VENDOR]:https://github.com/ajrussell999/augmented_DHCP/blob/master/images/dhcp_server_option_actions.png
 [DHCP_SERVER_VENDOR_FLOW]:https://github.com/ajrussell999/augmented_DHCP/blob/master/images/flow-chart_dhcp_vendor_options_id_ip_pool.png
 [DHCP_SW_FTP]:https://github.com/ajrussell999/augmented_DHCP/blob/master/images/dhcp-clinet_vendor_options.png   
+[DHCP_DISCOVER]:   
+[DHCP_OFFER]:   
+[DHCP_REQUEST]:   
+[DHCP_ACK]:   
 
