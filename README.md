@@ -73,19 +73,46 @@ The sub-options of option 43 offered by the DHCP-server to the client are listed
 
 Internet service providers have different types of customers with different data bandwidth needs. Generally business customers require high data bandwidths than domestic customers. To cater for both sides of the business, ISPs install high bandwidth CPEs at business premises. The high bandwidth CPE use different software and therefore must be identified as a business CPE model in order to have the correct software credentials examined by the DHCP server, and for an IP address to be offered from a different IP address pool. An address pool being a range of IP addresses specified for a particular purpose, which in this case is business clients. 
 
-The process by which the DHCP server differentiates between residential and business customers is illustrated in Figure 1.
+The process by which the DHCP server differentiates between residential and business customers is illustrated with the flow diagram in Figure 1.
 
 ![CPE_TEYPE][DHCP_SERVER_VENDOR_FLOW]   
 **Figure 1.** DHCP-server business & domestic CPE type identification and options
   
-
-
+The DHCP server-client packet exchange is illustrated in Figure 2. The vendor option 43 sub-options being encapsulated in the DHCP-server's offer packet. The the CPE inspects the sub-options in the offer packet, before replying with a request packet. The ACK returned by the DHCP-server confirms client and server mutual happiness with the options assigned.
 
 
 ![DHCPD_VEND][DHCP_SERVER_VENDOR]   
 **Figure 2.** DHCP-server vendor-options process and CPE packet exchange   
 
+#### 3.2	CTS CPE DHCP-client process   
+
+The CTS CPE operates as a DHCP-client, and as such receives an IP addresses offer from the DHCP server. The address offered to the CPE depends on the precise model of CPE, since high bandwidth business CPEs receive addresses from a separate IP address range than domestic CPEs. The DHCP server identifies different CPE models from their unique vendor class identifier. Domestic CPEs have a vendor class identifier of FS-0900E, while high bandwidth business CPEs have a vendor class identifier of ESH-3105. The packet exchange between client and server, and the server process steps taken in returning an IP address and option 43 vendor specific options to the CPE DHCP-client are illustrated in Figure 2.  
+
+The DHCP option 43 vendor specific options sent to the CTS CPE inform the CPE of the latest available software for the CPE operating system. The terms software and firmware are used interchangeably in the tables and figures describing the automated software upgrade process. The DHCP server includes the MD5 hash of the latest CPE software in the option 43 options of the offer packet. On receiving the DHCP offer packet, the CPE compares MD5 hash with that of its own. If the MD5 hashes are the same, then the CPE takes no further action, but if they differ, then the software upgrade process is initiated.   
+
+![CPE_FTP][DHCP_SW_FTP]   
+**Figure 3.** Automated CPE software upgrade via augmented DHCP   
+
+The software upgrade process is achieved by using option 43 credentials to authenticate an FTP session and download the requested filename. The IP address of the FTP server, the session username and password, and the software file name are contained with the option 43 fields. The software upgrade process and the packet exchange to authenticate the CPE and FTP download the latest software are illustrated in Figure 3. The sequential steps of the upgrade process are listed in Table 3.   
+
+**Table 3.** CTS CPE Software upgrade process     
+
+|Step | Description |   
+|:------:|:------|   
+| 1 | Based on the DHCP discover the DHCP-server sends back an appropriate offer |   
+| 2 | Check the local MD5 File Code Hash value against the one returned in the DHCP offer |   
+| 3 | If the checksums are the same, take no further action relating to SW upgrade |   
+| 4 | If local checksum differs, use the credentials returned by the DHCP server to attempt a download of the new SW from a TFTP or FTP server |   
+| 5 | If the SW download fails, after 3 attempts take no further action until the next DHCP ACK |
+| 6 | If the SW download is successful, check the urgency bit   |
+| 7 | If urgency bit set - reboot immediately |   
+| 8 | If not set, then await manual reboot (user intervention or via SNMP) before activating new SW |   
+
+
+
 
 
 [DHCP_SERVER_VENDOR]:https://github.com/ajrussell999/augmented_DHCP/blob/master/images/dhcp_server_option_actions.png
 [DHCP_SERVER_VENDOR_FLOW]:https://github.com/ajrussell999/augmented_DHCP/blob/master/images/flow-chart_dhcp_vendor_options_id_ip_pool.png
+[DHCP_SW_FTP]:https://github.com/ajrussell999/augmented_DHCP/blob/master/images/dhcp-clinet_vendor_options.png   
+
