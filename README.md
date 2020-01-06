@@ -54,6 +54,7 @@ The decision processes of the DHCP-server is made upon the receipt of a DHCP dis
 | 4 | In reply to the DHCP-client discover packet. Send a relevant DHCP offer packet for the CTS modem including DHCP option 43 sub-options. |   
 
 The sub-options of option 43 offered by the DHCP-server to the client are listed in Table 2.   
+Sub-options 7 and 8 are omitted since these options are used to update the config file. Since the management vlan 4090, must be configured on the WAN interface of the CPE by default in order to reach the management network and DHCP server at power up. These two option codes have been omitted for this automated firmware update solution since CPE configuration is achieved in the laboratory network by Simple Network Management Protocol (SNMP).   
 
 
 **Table 2.** DHCP-server offer option 43 sub-options  
