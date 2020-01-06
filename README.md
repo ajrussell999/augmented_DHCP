@@ -112,7 +112,9 @@ The software upgrade process is achieved by using option 43 credentials to authe
 
 ### 4. ISC DHCP-server sample configuration file dhcpd.conf   
 
-The ISC DHCP-server configuration text is split into four sections, global, class ESH-3105, class FS-0900E, and default class. The four sections are listed below.   
+The ISC DHCP-server configuration text is split into four sections, global, class ESH-3105, class FS-0900E, and default class. The four sections are listed below.  
+
+#### 4.1 DHCP.conf global
 First the global section of the dhcp.conf file.
 
 ```sh
@@ -135,7 +137,8 @@ log-facility local7;
 #IPv4 24bit subnet and netmask 
 subnet 10.5.5.0 netmask 255.255.255.0 {
 }   
-```   
+```  
+#### 4.2 class ESH-3105   
 The second section of the dhcp.conf file contains class ESH-3105, the parameters for the ESH-3105 business CPE.   
 
 
@@ -214,6 +217,8 @@ class "ESH-3105"{
   authoritative; 
   }
   ``` 
+  #### 4.3 class FS-0900E   
+  
   The third section of the dhcp.conf file contains class FS-0900E, which contains the parameters for the domestic CPE.   
   
   ```sh
@@ -291,10 +296,12 @@ class "FS-0900E"{
   authoritative; 
   }
   ```   
-  
+ 
+#### 4.4 default class - no vendor option identifier   
+
 The fourth section of the dhcp.conf file contains the default configuration parameters for dhcp-clients with no vendor option identifier.   
 
-
+```sh
 #
 #DEFAULT class: subnet for DHCP-clients with unmatched or NO vendor id
 #DEFAULT IPv4 address pool, range permitted for subnet, from 1 to 127
@@ -328,7 +335,6 @@ The fourth section of the dhcp.conf file contains the default configuration para
   }
 
 ```   
-
 
 
 
