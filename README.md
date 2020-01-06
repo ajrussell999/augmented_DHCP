@@ -49,12 +49,12 @@ The decision processes of the DHCP-server is made upon the receipt of a DHCP dis
 |Step|  Description    |   
 |:------:|------|   
 | 1 | CTS modem sends a DHCP Discover.  This typically occurs on reboot or on a WAN linkup event occurring|
-| 2 | DHCP Server depending on configuration will make a vendor ID check to confirm what type of device is requesting an IP address. Vendor Class Identifier (Option 60) can be used by DHCP servers to identify the vendor and functionality of a DHCP client. The information is a variable length string of characters or octets which has a meaning specified by the vendor of the DHCP client |
+| 2 | DHCP-server, depending on configuration makes a vendor ID option inspection to learn the vendor and model requesting an IP address lease. Vendor Class Identifier (Option 60) is used by DHCP servers to identify the vendor and functionality of a DHCP client. The information is a variable length string of characters or octets that have meaning specified to the vendor of the DHCP client |
 | 3 | For non CTS modems take appropriate action depending on the DHCP server configuration |
 | 4 | In reply to the DHCP-client discover packet. Send a relevant DHCP offer packet for the CTS modem including DHCP option 43 sub-options. |   
 
 The sub-options of option 43 offered by the DHCP-server to the client are listed in Table 2.   
-Sub-options 7 and 8 are omitted since these options are used to update the config file. Since the management vlan 4090, must be configured on the WAN interface of the CPE by default in order to reach the management network and DHCP server at power up. These two option codes have been omitted for this automated firmware update solution since CPE configuration is achieved in the laboratory network by Simple Network Management Protocol (SNMP).   
+Sub-options 7 and 8 are omitted since these options are used to update the config file. Since the CPE management vlan 4090, must be configured on the WAN interface of the CPE by default to enable logical connectivity to the management network and DHCP server at power up. Sub-option 7 and 8 have been omitted for this automated firmware update example, since CPE configuration is achieved in the laboratory network by Simple Network Management Protocol (SNMP).   
 
 
 **Table 2.** DHCP-server offer option 43 sub-options  
@@ -72,14 +72,14 @@ Sub-options 7 and 8 are omitted since these options are used to update the confi
 | 9 | 16 Bit Option (Bit 0: Urgency Bit 1-15: Reserve) |   
 
 
-Internet service providers have different types of customers with different data bandwidth needs. Generally business customers require high data bandwidths than domestic customers. To cater for both segments of their business, ISPs install high bandwidth CPEs at business premises. The high bandwidth CPEs use different software and therefore must be identified as a business CPE model in order to have the correct software credentials examined by the DHCP server, and for an IP address to be offered from a separate IP address pool. An address pool being a range of IP addresses specified for a particular purpose or type of client. 
+Internet service providers have different types of customers with different data bandwidth needs. Generally business customers require high data bandwidths than domestic customers. To cater for both segments of their business, ISPs install high bandwidth CPEs at business premises. The high bandwidth CPEs use different software and therefore must be identified as a business CPE model in order to have the correct software credentials examined by the DHCP-server, and for an IP address lease to be offered from a separate IP address pool. An address pool being a range of IP addresses specified for a particular purpose or type of client. 
 
 The process by which the DHCP server differentiates between residential and business customers is illustrated with the flow diagram in Figure 1.
 
 ![CPE_TEYPE][DHCP_SERVER_VENDOR_FLOW]   
 **Figure 1.** DHCP-server business & domestic CPE type identification and options
   
-The DHCP server-client packet exchange is illustrated in Figure 2. The vendor option 43 sub-options being encapsulated in the DHCP-server's offer packet. The the CPE inspects the sub-options in the offer packet, before replying with a request packet. The ACK returned by the DHCP-server confirms client and server mutual happiness with the options assigned.
+The DHCP server-client packet exchange is illustrated in Figure 2. The vendor option 43 sub-options being encapsulated in the DHCP-server's offer packet. The CPE inspects the sub-options in the offer packet, before replying with a request packet. The ACK returned by the DHCP-server confirms client and server mutual happiness with the options assigned.
 
 
 ![DHCPD_VEND][DHCP_SERVER_VENDOR]   
