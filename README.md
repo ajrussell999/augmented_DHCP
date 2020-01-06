@@ -370,8 +370,9 @@ The loss of DHCP functionality is usually met with an emotional response from ne
 [DHCP_SERVER_VENDOR]:https://github.com/ajrussell999/augmented_DHCP/blob/master/images/dhcp_server_option_actions.png
 [DHCP_SERVER_VENDOR_FLOW]:https://github.com/ajrussell999/augmented_DHCP/blob/master/images/flow-chart_dhcp_vendor_options_id_ip_pool.png
 [DHCP_SW_FTP]:https://github.com/ajrussell999/augmented_DHCP/blob/master/images/dhcp-clinet_vendor_options.png   
-[DHCP_DISCOVER]:   
-[DHCP_OFFER]:   
-[DHCP_REQUEST]:   
-[DHCP_ACK]:   
+[DHCP_DISCOVER]:https://github.com/ajrussell999/augmented_DHCP/blob/master/images/DHCP_DISCOVER.png   
+[DHCP_OFFER]:https://github.com/ajrussell999/augmented_DHCP/blob/master/images/DHCP_OFFER.png   
+[DHCP_REQUEST]:https://github.com/ajrussell999/augmented_DHCP/blob/master/images/DHCP_REQUEST.png   
+[DHCP_ACK]:https://github.com/ajrussell999/augmented_DHCP/blob/master/images/DHCP_ACK.png   
+
 
