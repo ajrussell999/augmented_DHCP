@@ -49,7 +49,7 @@ The decision processes of the DHCP server is made upon the receipt of a DHCP dis
 | 1 | CTS modem sends a DHCP Discover.  This typically occurs on reboot or on a WAN linkup event occurring|
 | 2 | DHCP Server depending on configuration will make a vendor ID check to confirm what type of device is requesting an IP address. Vendor Class Identifier (Option 60) can be used by DHCP servers to identify the vendor and functionality of a DHCP client. The information is a variable length string of characters or octets which has a meaning specified by the vendor of the DHCP client |
 | 3 | For non CTS modems take appropriate action depending on the DHCP server configuration |
-| 4 | Send a relevant DHCP offer packet for the CTS modem including DHCP option 43 parameters. The DHCP server includes the following vender specification options (by 43) to respond to Fiber Switch. 
+| 4 | Send a relevant DHCP offer packet for the CTS modem including DHCP option 43 parameters. The DHCP server includes the following vender specification option 43 to respond to Fiber Switch. 
 1. Option 43: Protocol (0: TFTP or 1: FTP) 
 2. Option 43: IP (TFTP or FTP server) 
 3. Option 43: User (Server login name) 
