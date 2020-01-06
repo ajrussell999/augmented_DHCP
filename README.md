@@ -22,7 +22,7 @@ Data: 7.11.2008
 
 ### 1.	Scope and purpose   
 
-To describe conceptually the automated software upgrade process for Customer Premises equipment (CPE) fiber optic modems manufactured by Connection Technology Systems (CTS) for triple play service providers. CTS CPEs  terminate fiber to the home internet connectivity, and divide traffic between internet browser data, digital Internet Protocol Television (IPTV), and telephony.
+To describe conceptually the automated software upgrade process for Customer Premises equipment (CPE) fiber optic modems manufactured by Connection Technology Systems (CTS) for triple play service providers. CTS CPEs terminate fiber to the home internet connectivity, and divide traffic between internet browser data, digital Internet Protocol Television (IPTV), and telephony.
 
 This document does not describe exact configuration values to be used within a particular network, rather provides a sample configuration from an Internet Services Consortium (ISC) Dynamic Host Configuration Protocol (DHCP) server.
 
@@ -30,19 +30,19 @@ This document does not specify recommended versions hardware, or versions of sof
 
 ### 2. Summary
 
-The automated software upgrade of CTS CPE modems is accomplished using an appropriately configured DHCP server and a Trivial File Transfer Protocol (TFTP), or a File Transfer Protocol (FTP) server, which provides the latest version of software to the DHCP client; in this case the CTS CPE modem.
+The automated software upgrade of CTS CPE modems is accomplished using an appropriately configured DHCP server and a Trivial File Transfer Protocol (TFTP), or a File Transfer Protocol (FTP) server, to download the latest version of software to the DHCP client; in this case the CTS CPE modem.
 
 Once downloaded to the CPE modem, the software requires the CPE to be rebooted in-order to take effect. The CPE modem may either be activated automatically after download (immediate reboot) or activated by a manual reboot via (SNMP) or user intervention.
 
-Whilst not within the scope of this document, it should be noted that a similar process can be used for the automatic download of new configuration files to the CTS modem.
+Whilst not within the scope of this document, it should be noted that a similar process can be used for the automatic download of new configuration files to CTS modems.
 
 ### 3.	Automated software upgrade via DHCP Vendor-Options   
 
-The conceptual description of the automated software upgrade process is described from two perspectives, namely that of the DHCP server and the CTS CPE modem. The sample config provided in this document is from a laboratory network is from an ISC DHCP Server, version 3.1.1.   
+The conceptual description of the automated software upgrade process is described from two perspectives, namely that of the DHCP server and the CTS CPE modem. The sample DHCP-server config provided in this document is from a laboratory network is from an ISC DHCP Server, version 3.1.1.   
 
 #### 3.1	DHCP server process
 
-The decision processes of the DHCP server is made upon the receipt of a DHCP discover packet from a CTS modem. Upon bootup, the CPE has no IP address and sends a discovery packet to the DHCP server in anticipation of receiving a reply with an IP address offered. The CTS CPE sends a discover packet which contains an option 60 field, vendor class identifier. The DHCP server upon examining the vendor class identifier, identifiers the client as a CTS CPE, and constructs an offer packer with information required to by the CTS CPE to validate if the current software version is the latest. Data encapsulated within the offer packet sent in reply, is constructed through a several steps described in Table 1. The information encapsulated within the offer is written to an optional packet field, namely option 43 parameters. The CTS CPE replies to the offer packer with a request packet to confirm to the DHCP server that it is content with the contents of the offer packet. The DHCP server replies to the CTS CPE with an ACK packet to confirm mutual happiness.
+The decision processes of the DHCP server is made upon the receipt of a DHCP discover packet from a CTS modem. Upon bootup, the CPE has no IP address and sends a discovery packet to the DHCP server in anticipation of receiving a reply with an IP address offered. The CTS CPE sends a discover packet which contains an option 60 field, vendor-class-identifier. The DHCP server upon examining the vendor class identifier, identifies the client as a CTS CPE, and constructs an offer packer with information required by the CTS CPE to validate if the current software version is the latest. Data encapsulated within the offer packet sent in reply, is constructed through several steps described in Table 1. The information encapsulated within the offer is written to an optional packet field; option 43 sub-options. The CTS CPE replies to the offer packer with a request packet to confirm to the DHCP server that it is content with the contents of the offer packet. The DHCP server replies to the CTS CPE with an ACK packet to confirm mutual happiness.
 
 **Table 1.** DHCP Server offer process
 
@@ -71,7 +71,7 @@ The sub-options of option 43 offered by the DHCP-server to the client are listed
 | 9 | 16 Bit Option (Bit 0: Urgency Bit 1-15: Reserve) |   
 
 
-Internet service providers have different types of customers with different data bandwidth needs. Generally business customers require high data bandwidths than domestic customers. To cater for both sides of the business, ISPs install high bandwidth CPEs at business premises. The high bandwidth CPE use different software and therefore must be identified as a business CPE model in order to have the correct software credentials examined by the DHCP server, and for an IP address to be offered from a different IP address pool. An address pool being a range of IP addresses specified for a particular purpose, which in this case is business clients. 
+Internet service providers have different types of customers with different data bandwidth needs. Generally business customers require high data bandwidths than domestic customers. To cater for both segments of their business, ISPs install high bandwidth CPEs at business premises. The high bandwidth CPEs use different software and therefore must be identified as a business CPE model in order to have the correct software credentials examined by the DHCP server, and for an IP address to be offered from a separate IP address pool. An address pool being a range of IP addresses specified for a particular purpose or type of client. 
 
 The process by which the DHCP server differentiates between residential and business customers is illustrated with the flow diagram in Figure 1.
 
@@ -291,6 +291,7 @@ class "FS-0900E"{
   }
   ```   
   
+The fourth section of the dhcp.conf file contains the default configuration parameters for dhcp-clients with no vendor option identifier.   
 
 
 #
