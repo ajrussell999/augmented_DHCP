@@ -115,7 +115,10 @@ The software upgrade process is achieved by using option 43 credentials to authe
 The ISC DHCP-server configuration text is contained withing the dhcpd.conf file. The text in this example is split into four sections, global, class ESH-3105, class FS-0900E, and default class. The four sections are listed below.  
 
 #### 4.1 dhcpd.conf global
-First the global section of the dhcpd.conf file. This describes the dynamic domain name sercie being enables. The legacy protocol, bootp protocol is disbaled. The authorative keyword is un-commented so that clients see this server as the official DHCP-server for the network. 
+First the global section of the dhcpd.conf file. This describes dynamic domain name system being enabled, uncommented  ddns-update-style interim.   
+The legacy protocol, bootp protocol is disbaled.   
+The authorative keyword is un-commented so that clients see this server as the official DHCP-server for the network.   
+DHCP-server logging to its own daemon facility, with level7 log all messages from the lowest priotity, includes debug, info, notice, warn, err, crit, alert, emergency.
 
 ```sh
 # dhcpd.conf
@@ -131,7 +134,7 @@ First the global section of the dhcpd.conf file. This describes the dynamic doma
 # network, the authoritative directive should be uncommented.
  authoritative;
 
-# Use <log-facility local 7;> to send dhcp log messages to a different log # file (n.b. must also hack syslog.conf to complete the redirection).
+# Use <log-facility local7;> to send dhcp log messages to a different log # file (n.b. must also hack syslog.conf to complete the redirection).
 log-facility local7;
 
 #IPv4 24bit subnet and netmask 
