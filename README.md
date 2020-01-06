@@ -109,6 +109,215 @@ The software upgrade process is achieved by using option 43 credentials to authe
 | 8 | If not set, then await manual reboot (user intervention or via SNMP) before activating new SW |   
 
 
+### 4. ISC DHCP-server sample configuration file dhcpd.conf   
+
+```sh
+# dhcpd.conf
+# Sample configuration file for ISC dhcpd
+# default-lease-time 600; 600 seconds if not specified by DHCP-client
+# max-lease-time 7200 seconds; Maximum IPv4 address lease time (2 hours)
+# ddns-update-style interim; enable dynamic dns updates globally.
+ ddns-update-style interim;
+
+
+## allow bootp; #commented out since bootp protocol is not recommended.
+
+# If this DHCP server is the official DHCP server for the local
+# network, the authoritative directive should be uncommented.
+ authoritative;
+
+# Use <log-facility local 7;> to send dhcp log messages to a different log # file (n.b. must also hack syslog.conf to complete the redirection).
+log-facility local7;
+
+#IPv4 24bit subnet and netmask 
+subnet 10.5.5.0 netmask 255.255.255.0 {
+}  
+
+
+# class ESH-3105 for Business CPE
+# Business CPE model ESH-3105, options space variables types
+# options 7 & 8 relevant only for DHCP-client config downloads 
+# options 7 & 8 not required Software downloads
+option space ESH-3105;
+
+  option ESH-3105.protocol code 1 = unsigned integer 8; 
+  option ESH-3105.server-ip code 2 = ip-address; 
+  option ESH-3105.server-login-name code 3  = text; 
+  option ESH-3105.server-login-password code 4 = text; 
+  option ESH-3105.firmware-file-name code 5 = text; 
+  option ESH-3105.firmware-md5 code 6 = string;
+  option ESH-3105.option code 9 = unsigned integer 16;
+
+# Conditional: Inspect dhcp-client discover packet 
+# IF vendor-class id = ESH-3105 
+# THEN dhcp-client = CTS Business CPE model 3105
+class "ESH-3105"{
+	match if (option vendor-class-identifier = "ESH-3105");
+
+    vendor-option-space ESH-3105;
+
+# class ESH-3105 FTP options
+    option ESH-3105.protocol 0;
+
+# class ESH-3105 Software upgrade FTP server IP address
+    option ESH-3105.server-ip 10.5.5.250;
+
+# class ESH-3105 Software upgrade FTP server CPE login username
+    option ESH-3105.server-login-name "3105";
+
+# class ESH-3105 Software upgrade FTP server CPE login password 
+    option ESH-3105.server-login-password "abc123ftp";
+
+# class ESH-3105 Software upgrade FTP server CPE latest software filename
+    option ESH-3105.firmware-file-name ESH-3105_FW_1_02_00_20081006;
+
+# class ESH-3105 latest software MD5 hash
+    option ESH-3105.firmware-md5 c1:70:59:24:be:c6:44:a3:aa:62:ba:d8:e1:c2:06:1b;
+
+# class ESH-3105 IPv4 address options
+    option ESH-3105.option 1;
+    }
+
+# class ESH-3105 Business CPE IPv4 address pool 
+# lease address range permitted for subnet, from 5 to 50 
+  subnet 10.5.31.0 netmask 255.255.255.0 {
+  pool {
+  range 10.5.31.5 10.5.31.50;
+  allow members of "ESH-3105"; 
+  }
+
+# Default ESH-3105 IP address lease time 10 minutes 
+# 600 seconds if the DHCP-client does not specify
+  default-lease-time 600;
+
+# Maximum IP address lease time 2hours (7200s) 
+  max-lease-time 7200;
+
+# ESH-3105 class, IPv4 24bit subnet mask and broadcast address
+  option subnet-mask 255.255.255.0;
+  option broadcast-address 10.5.31.255; 
+
+# IP address of router on DHCP-client (ESH-3105)network, DHCP Relay agent
+  option routers 10.5.31.250; 
+
+# enable dns updates
+  ddns-update-style interim;
+
+# domain name (unregistered domain used in lab test)
+  option domain-name "option-vendor-class-identifier-test.org";
+  authoritative; 
+  }
+
+#
+# Class FS-0900E for domestic CPE
+# Domestic CPE model ESH-2109, options space variables types
+  option space FS-0900E;
+
+  option FS-0900E.protocol code 1 = unsigned integer 8;
+  option FS-0900E.server-ip code 2 = ip-address; 
+  option FS-0900E.server-login-name code 3  = text; 
+  option FS-0900E.server-login-password code 4 = text; 
+  option FS-0900E.firmware-file-name code 5 = text; 
+  option FS-0900E.firmware-md5 code 6 = string;
+  option FS-0900E.option code 9 = unsigned integer 16;
+
+# Conditional IF: DHCP-client discover packet, vendor-class id = FS-0900E 
+# THEN DHCP-client = CTS Business CPE model 2109
+class "FS-0900E"{
+	match if (option vendor-class-identifier = "FS-0900E");
+
+    vendor-option-space FS-0900E;
+
+# class FS-0900E (ESH-2109) FTP options
+    option FS-0900E.protocol 0;
+
+# class FS-0900E Software upgrade FTP server IP address
+    option FS-0900E.server-ip 10.5.5.250; 
+
+# class FS-0900E Software upgrade FTP server CPE login username
+    option FS-0900E.server-login-name "2109";
+
+# CPE ESH-2109 Software upgrade FTP server CPE login password 
+    option FS-0900E.server-login-password "abc1234ftp";
+
+# CPE ESH-2109 Software upgrade FTP server CPE latest software filename
+    option FS-0900E.firmware-file-name 2108-2109SERIES_FW_1_06_10_ALU_20080808;
+
+# CPE ESH-2109 latest software MD5 hash
+    option FS-0900E.firmware-md5 c1:70:59:24:be:c6:44:a3:aa:62:ba:d8:e1:c2:06:1b;
+
+# class FS-0900 IPv4 address options
+    option FS-0900E.option 1;
+    }
+
+# class FS-0900E Domestic CPE IPv4 address pool 
+# lease address range permitted for subnet, from 9 to 90 
+
+  subnet 10.5.21.0 netmask 255.255.255.0 {
+  pool {
+  range 10.5.21.9 10.5.21.90;
+  allow members of "FS-0900E";
+  } 
+
+# class FS-0900E Default ESH-2109 IP address lease time 10 minutes 
+# 600 seconds if the DHCP-client does not specify
+ default-lease-time 600;
+
+# Maximum IP address lease time 2hours (7200s) 
+  max-lease-time 7200;
+
+# class ESH-0900E, IPv4 24bit subnet mask and broadcast address
+  option subnet-mask 255.255.255.0;
+  option broadcast-address 10.5.21.255; 
+
+#IP address of router on DHCP-client (ESH-2109)network, DHCP Relay agent
+  option routers 10.5.21.250; 
+
+# class ESH-0900E enable dns updates
+  ddns-update-style interim;
+
+# class ESH-0900E domain name (unregistered domain used in test)
+  option domain-name "option-vendor-class-identifier-test.org";
+
+# class ESH-0900E official DHCP server for the local network
+  authoritative; 
+  }
+
+
+#
+#DEFAULT class: subnet for DHCP-clients with unmatched or NO vendor id
+#DEFAULT IPv4 address pool, range permitted for subnet, from 1 to 127
+  subnet 10.5.5.0 netmask 255.255.255.0 {
+  pool {
+  range 10.5.5.1 10.5.5.127;
+  } 
+ 
+#Clients with unmatched or no vendor id, default lease time 10 minutes
+#600seconds if the DHCP-client does not specify
+  default-lease-time 600;
+
+#Maximum IP address lease time 2 hours, for clients with no vendor-id
+  max-lease-time 7200;
+
+#default DHCP class IPv4 24bit subnet mask and broadcast address
+  option subnet-mask 255.255.255.0;
+  option broadcast-address 10.5.5.255; 
+
+#IP address of router on DHCP-client DEFAULT network, DHCP Relay agent
+  option routers 10.5.5.250; 
+
+#enable dns updates
+  ddns-update-style interim;
+
+#domain name (unregistered domain used in lab test)
+  option domain-name "option-vendor-class-identifier-test.org";
+
+# DHCP server is the official DHCP server for the local network
+  authoritative; 
+  }
+
+```   
+
 
 
 
