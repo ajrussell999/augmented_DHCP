@@ -112,10 +112,10 @@ The software upgrade process is achieved by using option 43 credentials to authe
 
 ### 4. ISC DHCP-server sample configuration file dhcpd.conf   
 
-The ISC DHCP-server configuration text is split into four sections, global, class ESH-3105, class FS-0900E, and default class. The four sections are listed below.  
+The ISC DHCP-server configuration text is contained withing the dhcpd.conf file. The text in this example is split into four sections, global, class ESH-3105, class FS-0900E, and default class. The four sections are listed below.  
 
-#### 4.1 DHCP.conf global
-First the global section of the dhcp.conf file.
+#### 4.1 dhcpd.conf global
+First the global section of the dhcpd.conf file. This describes the dynamic domain name sercie being enables. The legacy protocol, bootp protocol is disbaled. The authorative keyword is un-commented so that clients see this server as the official DHCP-server for the network. 
 
 ```sh
 # dhcpd.conf
