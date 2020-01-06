@@ -30,7 +30,7 @@ This document does not specify recommended versions hardware, or versions of sof
 
 ### 2. Summary
 
-The automated software upgrade of CTS CPE modems is accomplished using an appropriately configured DHCP server and a Trivial File Transfer Protocol (TFTP), or a File Transfer Protocol (FTP) server, to download the latest version of software to the DHCP client; in this case the CTS CPE modem.
+The automated software upgrade of CTS CPE modems is accomplished using an appropriately configured DHCP server and a Trivial File Transfer Protocol (TFTP), or a File Transfer Protocol (FTP) server, to download the latest version of software to the DHCP client; which in this case is the CTS CPE modem.
 
 Once downloaded to the CPE modem, the software requires the CPE to be rebooted in-order to take effect. The CPE modem may either be activated automatically after download (immediate reboot) or activated by a manual reboot via (SNMP) or user intervention.
 
@@ -38,11 +38,11 @@ Whilst not within the scope of this document, it should be noted that a similar 
 
 ### 3.	Automated software upgrade via DHCP Vendor-Options   
 
-The conceptual description of the automated software upgrade process is described from two perspectives, namely that of the DHCP server and the CTS CPE modem. The sample DHCP-server config provided in this document is from a laboratory network is from an ISC DHCP Server, version 3.1.1.   
+The conceptual description of the automated software upgrade process is described from two perspectives, namely that of the DHCP server and the CTS CPE modem. The sample DHCP-server config provided in this document is from a laboratory network, an ISC DHCP Server, version 3.1.1.   
 
 #### 3.1	DHCP server process
 
-The decision processes of the DHCP server is made upon the receipt of a DHCP discover packet from a CTS modem. Upon bootup, the CPE has no IP address and sends a discovery packet to the DHCP server in anticipation of receiving a reply with an IP address offered. The CTS CPE sends a discover packet which contains an option 60 field, vendor-class-identifier. The DHCP server upon examining the vendor class identifier, identifies the client as a CTS CPE, and constructs an offer packer with information required by the CTS CPE to validate if the current software version is the latest. Data encapsulated within the offer packet sent in reply, is constructed through several steps described in Table 1. The information encapsulated within the offer is written to an optional packet field; option 43 sub-options. The CTS CPE replies to the offer packer with a request packet to confirm to the DHCP server that it is content with the contents of the offer packet. The DHCP server replies to the CTS CPE with an ACK packet to confirm mutual happiness.
+The decision processes of the DHCP-server is made upon the receipt of a DHCP discover packet from a CTS modem. Upon bootup, the CPE has no IP address and sends a discovery packet to the DHCP server in anticipation of receiving a reply with an IP address offered. The CTS CPE sends a discover packet which contains an option 60 field, vendor-class-identifier. The DHCP server upon examining the vendor class identifier, identifies the client as a CTS CPE, and constructs an offer packer with information required by the CTS CPE to validate if the current software version is the latest. Data encapsulated within the offer packet, sent in reply, is constructed through several steps described in Table 1. The information encapsulated within the offer is written to an optional packet field; option 43 sub-options. The CTS CPE replies to the offer packer with a request packet to confirm to the DHCP server that it is happy with the contents of the offer packet. The DHCP server replies to the CTS CPE with an ACK packet to confirm mutual happiness.
 
 **Table 1.** DHCP Server offer process
 
@@ -51,12 +51,12 @@ The decision processes of the DHCP server is made upon the receipt of a DHCP dis
 | 1 | CTS modem sends a DHCP Discover.  This typically occurs on reboot or on a WAN linkup event occurring|
 | 2 | DHCP Server depending on configuration will make a vendor ID check to confirm what type of device is requesting an IP address. Vendor Class Identifier (Option 60) can be used by DHCP servers to identify the vendor and functionality of a DHCP client. The information is a variable length string of characters or octets which has a meaning specified by the vendor of the DHCP client |
 | 3 | For non CTS modems take appropriate action depending on the DHCP server configuration |
-| 4 | Send a relevant DHCP offer packet for the CTS modem including DHCP option 43 parameters. The DHCP server includes the following vender specification option 43 to respond to Fiber Switch |   
+| 4 | In reply to the DHCP-client discover packet. Send a relevant DHCP offer packet for the CTS modem including DHCP option 43 sub-options. |   
 
 The sub-options of option 43 offered by the DHCP-server to the client are listed in Table 2.   
 
 
-**Table 2.** DHCP Server offer option 43 parameters  
+**Table 2.** DHCP-server offer option 43 sub-options  
 
 |Sub-option | Description |   
 |:------:|:------|   
