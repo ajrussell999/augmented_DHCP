@@ -91,7 +91,7 @@ The CTS CPE operates as a DHCP-client, and as such receives an IP addresses offe
 The DHCP option 43 vendor specific options sent to the CTS CPE inform the CPE of the latest available software for the CPE operating system. The terms software and firmware are used interchangeably in the tables and figures describing the automated software upgrade process. The DHCP server includes the MD5 hash of the latest CPE software in the option 43 options of the offer packet. On receiving the DHCP offer packet, the CPE compares MD5 hash with that of its own. If the MD5 hashes are the same, then the CPE takes no further action, but if they differ, then the software upgrade process is initiated.   
 
 ![CPE_FTP][DHCP_SW_FTP]   
-**Figure 3.** Automated CPE software upgrade via augmented DHCP   
+**Figure 3.** Automated CPE software FTP upgrade via augmented DHCP   
 
 The software upgrade process is achieved by using option 43 credentials to authenticate an FTP session and download the requested filename. The IP address of the FTP server, the session username and password, and the software file name are contained with the option 43 fields. The software upgrade process and the packet exchange to authenticate the CPE and FTP download the latest software are illustrated in Figure 3. The sequential steps of the upgrade process are listed in Table 3.   
 
