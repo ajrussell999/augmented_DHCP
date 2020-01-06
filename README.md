@@ -111,6 +111,9 @@ The software upgrade process is achieved by using option 43 credentials to authe
 
 ### 4. ISC DHCP-server sample configuration file dhcpd.conf   
 
+The ISC DHCP-server configuration text is split into four sections, global, class ESH-3105, class FS-0900E, and default class. The four sections are listed below.   
+First the global section of the dhcp.conf file.
+
 ```sh
 # dhcpd.conf
 # Sample configuration file for ISC dhcpd
@@ -118,7 +121,6 @@ The software upgrade process is achieved by using option 43 credentials to authe
 # max-lease-time 7200 seconds; Maximum IPv4 address lease time (2 hours)
 # ddns-update-style interim; enable dynamic dns updates globally.
  ddns-update-style interim;
-
 
 ## allow bootp; #commented out since bootp protocol is not recommended.
 
@@ -131,9 +133,12 @@ log-facility local7;
 
 #IPv4 24bit subnet and netmask 
 subnet 10.5.5.0 netmask 255.255.255.0 {
-}  
+}   
+```   
+The second section of the dhcp.conf file contains class ESH-3105, the parameters for the ESH-3105 business CPE.   
 
 
+```sh
 # class ESH-3105 for Business CPE
 # Business CPE model ESH-3105, options space variables types
 # options 7 & 8 relevant only for DHCP-client config downloads 
@@ -207,8 +212,10 @@ class "ESH-3105"{
   option domain-name "option-vendor-class-identifier-test.org";
   authoritative; 
   }
-
-#
+  ``` 
+  The third section of the dhcp.conf file contains class FS-0900E, which contains the parameters for the domestic CPE.   
+  
+  ```sh
 # Class FS-0900E for domestic CPE
 # Domestic CPE model ESH-2109, options space variables types
   option space FS-0900E;
@@ -282,6 +289,8 @@ class "FS-0900E"{
 # class ESH-0900E official DHCP server for the local network
   authoritative; 
   }
+  ```   
+  
 
 
 #
