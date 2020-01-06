@@ -44,32 +44,48 @@ The conceptual description of the automated software upgrade process is describe
 
 The decision processes of the DHCP server is made upon the receipt of a DHCP discover packet from a CTS modem. Upon bootup, the CPE has no IP address and sends a discovery packet to the DHCP server in anticipation of receiving a reply with an IP address offered. The CTS CPE sends a discover packet which contains an option 60 field, vendor class identifier. The DHCP server upon examining the vendor class identifier, identifiers the client as a CTS CPE, and constructs an offer packer with information required to by the CTS CPE to validate if the current software version is the latest. Data encapsulated within the offer packet sent in reply, is constructed through a several steps described in Table 1. The information encapsulated within the offer is written to an optional packet field, namely option 43 parameters. The CTS CPE replies to the offer packer with a request packet to confirm to the DHCP server that it is content with the contents of the offer packet. The DHCP server replies to the CTS CPE with an ACK packet to confirm mutual happiness.
 
+**Table 1.** DHCP Server offer process
+
 |Step|  Description    |   
-|:------:|------| 
+|:------:|------|   
 | 1 | CTS modem sends a DHCP Discover.  This typically occurs on reboot or on a WAN linkup event occurring|
 | 2 | DHCP Server depending on configuration will make a vendor ID check to confirm what type of device is requesting an IP address. Vendor Class Identifier (Option 60) can be used by DHCP servers to identify the vendor and functionality of a DHCP client. The information is a variable length string of characters or octets which has a meaning specified by the vendor of the DHCP client |
 | 3 | For non CTS modems take appropriate action depending on the DHCP server configuration |
-| 4 | Send a relevant DHCP offer packet for the CTS modem including DHCP option 43 parameters. The DHCP server includes the following vender specification option 43 to respond to Fiber Switch. 
-1. Option 43: Protocol (0: TFTP or 1: FTP) 
-2. Option 43: IP (TFTP or FTP server) 
-3. Option 43: User (Server login name) 
-4. Option 43: Password (Server login password) 
-5. Option 43: Filename (Software image) 
-6. Option 43: MD5 Code (Software image MD5 code) 
-7. Option 43: Filename (Configuration image) 
-8. Option 43: MD5 Code (Configuration image MD5 code) 
-9. Option 43: 16 Bits Option (Bit 0: Urgency Bit 1-15: Reserve)
-|  
+| 4 | Send a relevant DHCP offer packet for the CTS modem including DHCP option 43 parameters. The DHCP server includes the following vender specification option 43 to respond to Fiber Switch |   
 
+The sub-options of option 43 offered by the DHCP-server to the client are listed in Table 2.   
+
+
+**Table 2.** DHCP Server offer option 43 parameters  
+
+|Sub-option | Description |   
+|:------:|:------|   
+| 1 | Protocol (0: TFTP or 1: FTP) |   
+| 2 | IP (TFTP or FTP server) |   
+| 3 | User (Server login name) |   
+| 4 | Password (Server login password) |   
+| 5 | Filename (Software image) |   
+| 6 | MD5 Code (Software image MD5 code) |
+| 7 | Filename (Configuration image)  |
+| 8 | MD5 Code (Configuration image MD5 code) |
+| 9 | 16 Bit Option (Bit 0: Urgency Bit 1-15: Reserve) |   
+
+
+Internet service providers have different types of customers with different data bandwidth needs. Generally business customers require high data bandwidths than domestic customers. To cater for both sides of the business, ISPs install high bandwidth CPEs at business premises. The high bandwidth CPE use different software and therefore must be identified as a business CPE model in order to have the correct software credentials examined by the DHCP server, and for an IP address to be offered from a different IP address pool. An address pool being a range of IP addresses specified for a particular purpose, which in this case is business clients. 
+
+The process by which the DHCP server differentiates between residential and business customers is illustrated in Figure 1.
+
+![CPE_TEYPE][DHCP_SERVER_VENDOR_FLOW]   
+**Figure 1.** DHCP-server business & domestic CPE type identification and options
+  
 
 
 
 
 ![DHCPD_VEND][DHCP_SERVER_VENDOR]   
-**Figure 1.** DHCP-server vendor-options process and CPE packet exchange   
+**Figure 2.** DHCP-server vendor-options process and CPE packet exchange   
 
 
 
 [DHCP_SERVER_VENDOR]:https://github.com/ajrussell999/augmented_DHCP/blob/master/images/dhcp_server_option_actions.png
-
-
+[DHCP_SERVER_VENDOR_FLOW]:https://github.com/ajrussell999/augmented_DHCP/blob/master/images/flow-chart_dhcp_vendor_options_id_ip_pool.png
